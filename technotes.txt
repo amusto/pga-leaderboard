@@ -1,0 +1,4 @@
+mlab db
+user: appUser
+password: Nanakarobi321
+DB: emaily-dev
