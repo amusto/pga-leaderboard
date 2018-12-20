@@ -4,9 +4,9 @@ const Landing = () => {
     return (
       <div style={{ textAlign: 'center' }}>
           <h1>
-              Dashboard
+              PGA Leaderboard
           </h1>
-          Dashboard Control for your apps
+          PGA Leaderboard
       </div>
     );
 };

@@ -6,7 +6,9 @@ import Header from './Header';
 import Landing from './Landing';
 import Dashboard from './Dashboard';
 import UserInfo from './UserInfo';
-import SurveyNew from './surveys/SurveyNew';
+import PlayerList from './players/PlayerList';
+import PlayerNew from './players/PlayerNew';
+import Player from './players/Player';
 
 class App extends Component {
     componentDidMount() {
@@ -22,7 +24,8 @@ class App extends Component {
                       <Route exact path="/" component={Landing} />
                       <Route exact path="/dashboard" component={Dashboard} />
                       <Route exact path="/userInfo" component={UserInfo} />
-                      <Route path="/surveys/new" component={SurveyNew} />
+                      <Route path="/players/new" component={PlayerNew} />
+                      <Route path="/players" component={PlayerList} />
                   </div>
               </BrowserRouter>
           </div>

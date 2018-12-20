@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 
 require('./models/User');
-require('./models/Survey');
+require('./models/Player');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -28,12 +28,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.enable("trust proxy");
-console.log('Hello')
-require('./routes/trelloRoutes')(app);
 
 require('./routes/authRoutes')(app);
-//require('./routes/billingRoutes')(app);
-require('./routes/surveyRoutes')(app);
+require('./routes/playerRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
     console.log('Running in Production');

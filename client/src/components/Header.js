@@ -18,26 +18,37 @@ class Header extends Component {
                 );
             default:
                 return [
-                    <li key="0"><a href="/api/current_user">User</a></li>,
-                    <li key="1"><a href="/api/logout">Logout</a></li>
+                    <li key="0"><a href="/players">Leaderboard</a></li>,
+                    <li key="1"><a href="/api/current_user">User</a></li>,
+                    <li key="2"><a href="/api/logout">Logout</a></li>
                 ]
         }
     }
 
     render() {
+        let addPlayerRow = {
+            width: '100%',
+            margin: '5px',
+            textAlign: 'right'
+        }
         return (
-          <nav>
-              <div className="nav-wrapper">
-                  <Link
-                    to={this.props.auth ? '/dashboard' : '/'}
-                    className="left brand-logo"
-                    style={{ margin: '0 10px' }}>
-                      My Dashboard</Link>
-                  <ul className="right">
-                      {this.renderContent()}
-                  </ul>
+          <div>
+              <nav>
+                  <div className="nav-wrapper">
+                      <Link
+                        to={this.props.auth ? '/dashboard' : '/'}
+                        className="left brand-logo"
+                        style={{ margin: '0 10px' }}>
+                          Leader Board</Link>
+                      <ul className="right">
+                          {this.renderContent()}
+                      </ul>
+                  </div>
+              </nav>
+              <div style={addPlayerRow}>
+                <a href="/players/new" className="waves-effect waves-light btn">Add Player</a>
               </div>
-          </nav>
+          </div>
         )
     }
 }
