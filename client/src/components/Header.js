@@ -18,7 +18,12 @@ class Header extends Component {
                 );
             default:
                 return [
-                    <li key="0"><a href="/players">Leaderboard</a></li>,
+
+                    <li key="0">
+                        <Link to={this.props.auth ? '/players' : '/'}>
+                            LeaderBoard
+                        </Link>
+                    </li>,
                     <li key="1"><a href="/api/current_user">User</a></li>,
                     <li key="2"><a href="/api/logout">Logout</a></li>
                 ]
@@ -45,9 +50,14 @@ class Header extends Component {
                       </ul>
                   </div>
               </nav>
-              <div style={addPlayerRow}>
-                <a href="/players/new" className="waves-effect waves-light btn">Add Player</a>
-              </div>
+              {this.props.auth && <div style={addPlayerRow}>
+                  <Link
+                      to={this.props.auth ? '/AddPlayer' : '/'}
+                      className="waves-effect waves-light btn"
+                      style={{ margin: '0 10px' }}>
+                      Add Player</Link>
+                {/*<a href="/AddPlayer" className="waves-effect waves-light btn">Add Player</a>*/}
+              </div>}
           </div>
         )
     }

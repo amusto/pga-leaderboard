@@ -16,18 +16,16 @@ class PlayerList extends Component {
         this.props.fetchPlayers();
     }
 
-    componentWillUpdate() {
-        this.props.fetchPlayers();
+    componentDidUpdate() {
+        console.log(this.props.players)
     }
 
     deletePlayer(playerId) {
-        this.props.deletePlayer(playerId).then(function(results) {
-            console.log(results)
-        });
+        this.props.deletePlayer(playerId);
+        this.props.fetchPlayers();
     }
 
     renderPlayers() {
-        //console.log(this.props.players)
         const nameColumn = {
             width: '40%'
         }
@@ -39,11 +37,12 @@ class PlayerList extends Component {
             width: '20%',
             textAlign: 'right'
         }
+
         return this.props.players.reverse().map((player, index) => {
             return (
                 <tbody key={index}>
                 <tr>
-                    <td style={nameColumn}><Link to={`/players/${player._id}`}>{player.last_name}, {player.first_name}</Link></td>
+                    <td style={nameColumn}><Link to={`/player/${player._id}`}>{player.last_name}, {player.first_name}</Link></td>
                     <td style={scoreColumn}>{player.score}</td>
                     <td style={actionsColumn}>
                         <a onClick={this.deletePlayer.bind(this, player._id)} className="waves-effect waves-light btn">Delete</a>
@@ -76,7 +75,7 @@ class PlayerList extends Component {
             </thead>
         );
 
-        return (<table className="table table-bordered table-hover" width="100%">
+        return (this.props.players.length > 0 && <table className="table table-bordered table-hover" width="100%">
                 {tableHeaders}
                 {this.renderPlayers()}
             </table>)

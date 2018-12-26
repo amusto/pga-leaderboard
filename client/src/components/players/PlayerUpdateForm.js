@@ -12,7 +12,6 @@ import formFields from './formFields';
 class PlayerForm extends Component {
     // Helper function
     renderFields() {
-        console.log(this.props.playerData)
         return _.map(formFields, ({ label, name }) => {
             return <Field key={name} component={PlayerField} type="text" label={label} name={name} />
         })

@@ -14,10 +14,10 @@ module.exports = (app) => {
     });
 
     //GET PLAYER BY ID
-    app.get('/api/players/:playerId', (req, res) => {
-        //console.log(req)
-        //TODO: fix this up to return a specific player
-        res.send('Should return a player');
+    app.get('/api/player/:playerId', async (req, res) => {
+        const player = await Player.findById(req.params.playerId);
+
+        res.send(player);
     });
 
     //DELETE PLAYER BY ID
@@ -72,19 +72,29 @@ module.exports = (app) => {
     app.post('/api/players', requireLogin, async (req, res) => {
         const { first_name, last_name, score } = req.body;
 
-        const player = new Player({
-           first_name,
-           last_name,
-           score
-        });
+        const playerExists = await Player.find({first_name, last_name}).select();
+        console.log(playerExists.length)
 
-        try {
-            await player.save();
-            //const user = await req.user.save();
+        if (playerExists.length === 0) {
+            const player = new Player({
+               first_name,
+               last_name,
+               score
+            });
 
-            res.send(player);
-        } catch (err) {
-            res.status(422).send(err);
+            try {
+                await player.save();
+                res.send(player);
+            } catch (err) {
+                res.status(422).send(err);
+            }
+        } else {
+            let statusMessage = {
+                status: 'error',
+                message: 'This player exists!'
+            }
+            console.log(statusMessage)
+            res.send(statusMessage);
         }
     });
 

@@ -4,6 +4,7 @@ import { FETCH_USER, FETCH_PLAYER, FETCH_PLAYERS, DELETE_PLAYER } from './types'
 export const fetchUser = () => async dispatch => {
     const res = await axios.get('/api/current_user');
 
+    //NOTE: dispatch calls an action and passes a payload to the action.
     dispatch({ type: FETCH_USER, payload: res.data});
 };
 
@@ -16,8 +17,14 @@ export const handleToken = (token) => async dispatch => {
 export const submitPlayer = (values, history) => async dispatch => {
     const res = await axios.post('/api/players', values);
 
-    history.push('/players');
-    dispatch({ type: FETCH_USER, payload: res.data});
+    if (!res.data.status) {
+        history.push('/players');
+        dispatch({ type: FETCH_USER, payload: res.data});
+    } else {
+        alert(res.data.message);
+        dispatch({ type: FETCH_USER, payload: res.data});
+    }
+
 };
 
 export const fetchPlayers = () => async dispatch => {
@@ -27,14 +34,13 @@ export const fetchPlayers = () => async dispatch => {
 };
 
 export const fetchPlayer = (playerId) => async dispatch => {
-    const res = await axios.get('/api/players/:playerId');
+    const res = await axios.get(`/api/player/${playerId}`);
 
     dispatch({ type: FETCH_PLAYER, payload: res.data});
 };
 
 export const deletePlayer = (playerId, history) => async dispatch => {
     const res = await axios.delete(`/api/players/${playerId}`);
-    console.log(res)
 
     dispatch({ type: DELETE_PLAYER, payload: res.data});
 };

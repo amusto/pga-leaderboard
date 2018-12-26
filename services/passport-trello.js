@@ -36,7 +36,7 @@ passport.use(new TrelloStrategy({
             }
     },
     async (req, token, tokenSecret, profile, done) => {
-        console.log(req)
+        //console.log(req)
         //const existingUser = await User.findOne({ googleId: profile.id });
         //console.log(existingUser)
 

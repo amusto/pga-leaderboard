@@ -8,7 +8,7 @@ import Dashboard from './Dashboard';
 import UserInfo from './UserInfo';
 import PlayerList from './players/PlayerList';
 import PlayerNew from './players/PlayerNew';
-import Player from './players/Player';
+import PlayerUpdate from './players/PlayerUpdate';
 
 class App extends Component {
     componentDidMount() {
@@ -24,8 +24,9 @@ class App extends Component {
                       <Route exact path="/" component={Landing} />
                       <Route exact path="/dashboard" component={Dashboard} />
                       <Route exact path="/userInfo" component={UserInfo} />
-                      <Route path="/players/new" component={PlayerNew} />
                       <Route path="/players" component={PlayerList} />
+                      <Route path="/player/:playerId" component={PlayerUpdate} />
+                      <Route path="/AddPlayer" component={PlayerNew} />
                   </div>
               </BrowserRouter>
           </div>
