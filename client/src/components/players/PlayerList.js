@@ -9,15 +9,17 @@ class PlayerList extends Component {
     constructor(props) {
         super(props);
 
-        // This binding is necessary to make `this` work in the callback
+        this.state = {
+            showPlayersTable: false
+        }
         this.deletePlayer = this.deletePlayer.bind(this);
     }
     componentDidMount() {
         this.props.fetchPlayers();
+        this.setState({showPlayersTable: true})
     }
 
     componentDidUpdate() {
-        console.log(this.props.players)
     }
 
     deletePlayer(playerId) {
@@ -64,6 +66,12 @@ class PlayerList extends Component {
             width: '20%',
             textAlign: 'right'
         }
+        const noPlayersExistDiv = {
+            width: '100%',
+            textAlign: 'center',
+            padding: '150px',
+            fontWeight: 'bold'
+        }
 
         let tableHeaders = (
             <thead>
@@ -75,10 +83,16 @@ class PlayerList extends Component {
             </thead>
         );
 
-        return (this.props.players.length > 0 && <table className="table table-bordered table-hover" width="100%">
-                {tableHeaders}
-                {this.renderPlayers()}
-            </table>)
+        if (this.props.players.length > 0) {
+            return (
+                <table className="table table-bordered table-hover" width="100%">
+                    {tableHeaders}
+                    {this.renderPlayers()}
+                </table>
+            )
+        }
+        return <div style={noPlayersExistDiv}>No Players Exist</div>
+
     }
 }
 

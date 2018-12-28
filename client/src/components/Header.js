@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 class Header extends Component {
 
     componentDidMount() {
+
     }
 
     renderContent() {
@@ -41,7 +42,7 @@ class Header extends Component {
               <nav>
                   <div className="nav-wrapper">
                       <Link
-                        to={this.props.auth ? '/dashboard' : '/'}
+                        to={this.props.auth ? '/players' : '/'}
                         className="left brand-logo"
                         style={{ margin: '0 10px' }}>
                           Leader Board</Link>
@@ -56,7 +57,6 @@ class Header extends Component {
                       className="waves-effect waves-light btn"
                       style={{ margin: '0 10px' }}>
                       Add Player</Link>
-                {/*<a href="/AddPlayer" className="waves-effect waves-light btn">Add Player</a>*/}
               </div>}
           </div>
         )

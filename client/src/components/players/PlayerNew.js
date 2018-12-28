@@ -1,29 +1,76 @@
-// PlayerNew shows PlayerForm and PlayerFormReview
+import _ from 'lodash';
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
-import PlayerForm from './PlayerForm';
-import PlayerFormReview from './PlayerFormReview';
+import {submitPlayer} from "../../actions";
+import formFields from "./formFields";
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 
 class PlayerNew extends Component {
-    state = { showFormReview: false };
+    constructor(props) {
+        super(props);
 
-    renderContent() {
-        if (this.state.showFormReview) {
-            return <PlayerFormReview onCancel={() => this.setState({ showFormReview: false })} />;
-        }
+        this.state = {
+            showAddPlayerButton: false,
+            status: 0,
+            first_name: '',
+            last_name: '',
+            score: ''
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.onPlayerSubmit.bind(this);
+    }
 
-        return <PlayerForm onPlayerSubmit={() => this.setState({ showFormReview: true })}/>;
+    onPlayerSubmit(event) {
+        event.preventDefault();
+        this.props.submitPlayer(this.state, this.props.history)
+    }
+
+    handleChange(event) {
+        const target = event.target;
+        this.setState({[target.name]: target.value})
+    }
+
+    componentDidMount() {
+        console.log(this.state)
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.state)
     }
 
     render() {
+
+        const formValues = _.map(formFields, ({ type, label, name, value, size }, i) => {
+            const style = {
+                width: size
+            }
+            return (<div className="form-group" key={`${name}_${i}`}>
+                <label htmlFor={label}>{label}</label>
+                <input type={type} className="form-control" name={name} id={name} placeholder={label} style={style} onChange={this.handleChange} ></input>
+            </div>)
+        })
         return (
-          <div>
-              {this.renderContent()}
-          </div>
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    {formValues}
+                    <Link to="/players" className="red btn-flat white-text">
+                        Cancel
+                    </Link>
+                    <button className="teal btn-flat right white-text">
+                        Submit
+                    </button>
+                </form>
+            </div>
         )
     }
+
 };
 
-export default reduxForm({
-    form: 'playerForm'
-})(PlayerNew);
+
+function mapStateToProps(state){
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, { submitPlayer })(PlayerNew);

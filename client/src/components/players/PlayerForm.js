@@ -1,34 +1,64 @@
-// SurveyForm shows a form for a user to add input
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { Link } from 'react-router-dom';
-import PlayerField from './PlayerField';
-import validateEmails from '../../utils/validateEmails';
+import {Link} from 'react-router-dom';
 import formFields from './formFields';
+import {submitPlayer} from '../../actions';
 
-//TODO: Consider customizing recipients list by using pills for emails? Include a remove X for each pill  - EX: ( johndoe@emaily.com X ) http://materializecss.com/chips.html
+export class PlayerForm extends Component {
+    constructor(props) {
+        super(props);
 
-class PlayerForm extends Component {
-    // Helper function
-    renderFields() {
-        console.log(this.props.playerData)
-        return _.map(formFields, ({ label, name }) => {
-            return <Field key={name} component={PlayerField} type="text" label={label} name={name} />
-        })
+        this.state = {
+            first_name: '',
+            last_name: '',
+            score: ''
+        };
+
+        // This binding is necessary to make `this` work in the callback
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.onPlayerSubmit.bind(this);
+    }
+
+    componentDidMount() {
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.state)
+    }
+
+    onPlayerSubmit(event) {
+        console.log(this.state)
+        submitPlayer(this.state)
+        event.preventDefault();
+    }
+
+    handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({[name]: value})
     }
 
     render() {
+
+        const formValues = _.map(formFields, ({ type, label, name, value, size }, i) => {
+            const style = {
+                width: size
+            }
+            return (<div className="form-group" key={`${name}_${i}`}>
+                <label htmlFor={label}>{label}</label>
+                <input type={type} className="form-control" name={name} id={name} placeholder={label} style={style} onChange={this.handleChange} ></input>
+            </div>)
+        })
         return (
           <div>
-              <form onSubmit={this.props.handleSubmit(this.props.onPlayerSubmit)}>
-                {this.renderFields()}
+              <form onSubmit={this.handleSubmit}>
+                {formValues}
                 <Link to="/players" className="red btn-flat white-text">
                     Cancel
                 </Link>
                 <button type="submit" className="teal btn-flat right white-text">
-                    Next
-                    <i className="material-icons right">done</i>
+                    Submit
                 </button>
               </form>
           </div>
@@ -36,24 +66,4 @@ class PlayerForm extends Component {
     }
 };
 
-function validate(values) {
-    const errors = {};
-
-    // Custom error checks against valid emails
-    errors.recipients = validateEmails(values.recipients || '');
-
-    //TODO: Provide custom error text
-    _.each(formFields, ({ name }) => {
-        if (!values[name]) {
-            errors[name] = 'You must provide a value!';
-        }
-    });
-
-    return errors;
-}
-
-export default reduxForm({
-    validate,
-    form: 'playerForm',
-    destroyOnUnmount: false
-})(PlayerForm);
+export default PlayerForm;
