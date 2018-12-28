@@ -3,7 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Header from './Header';
-//import Landing from './Landing';
+import Landing from './Landing';
 import Dashboard from './Dashboard';
 import UserInfo from './UserInfo';
 import PlayerList from './players/PlayerList';
@@ -21,7 +21,7 @@ class App extends Component {
               <BrowserRouter>
                   <div>
                       <Header />
-                      <Route exact path="/" component={PlayerList} />
+                      <Route exact path="/" component={Landing} />
                       <Route exact path="/dashboard" component={Dashboard} />
                       <Route exact path="/userInfo" component={UserInfo} />
                       <Route path="/players" component={PlayerList} />

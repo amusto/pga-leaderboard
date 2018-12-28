@@ -30,14 +30,6 @@ class PlayerNew extends Component {
         this.setState({[target.name]: target.value})
     }
 
-    componentDidMount() {
-        console.log(this.state)
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.state)
-    }
-
     render() {
 
         const formValues = _.map(formFields, ({ type, label, name, value, size }, i) => {
