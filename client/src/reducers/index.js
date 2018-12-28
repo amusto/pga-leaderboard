@@ -1,5 +1,4 @@
-// Making actions available to our redux store
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'; //Bringing them into redux state
 import authReducer from './authReducer';
 import playersReducer from "./playersReducer";
 import playerReducer from "./playerReducer";

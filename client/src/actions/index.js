@@ -24,6 +24,18 @@ export const submitPlayer = (values, history) => async dispatch => {
         alert(res.data.message);
         dispatch({ type: FETCH_USER, payload: res.data});
     }
+};
+
+export const updatePlayer = (values, history) => async dispatch => {
+    const res = await axios.put('/api/players', values);
+
+    if (!res.data.status) {
+        history.push('/players');
+        dispatch({ type: FETCH_USER, payload: res.data});
+    } else {
+        alert(res.data.message);
+        dispatch({ type: FETCH_USER, payload: res.data});
+    }
 
 };
 

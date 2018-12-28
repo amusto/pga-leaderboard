@@ -14,14 +14,14 @@ module.exports = (app) => {
     });
 
     //GET PLAYER BY ID
-    app.get('/api/player/:playerId', async (req, res) => {
+    app.get('/api/player/:playerId', requireLogin, async (req, res) => {
         const player = await Player.findById(req.params.playerId);
 
         res.send(player);
     });
 
     //DELETE PLAYER BY ID
-    app.delete('/api/players/:playerId', (req, res) => {
+    app.delete('/api/players/:playerId', requireLogin, (req, res) => {
         Player.findByIdAndRemove(req.params.playerId, (err, player) => {
             if (err) return res.status(500).send(err);
 
@@ -32,41 +32,6 @@ module.exports = (app) => {
             return res.status(200).send(response);
         });
     });
-
-    // app.post('/api/players/webhooks', (req, res) => {
-    //     const p = new Path('/api/players/:surveyId/:choice');
-    //
-    //     _.chain(req.body)
-    //         .map(({ email, url }) => {
-    //             const match = p.test(new URL(url).pathname);
-    //             if (match) {
-    //                 return {
-    //                     email,
-    //                     surveyId: match.surveyId,
-    //                     choice: match.choice
-    //                 };
-    //             }
-    //         })
-    //         .compact()
-    //         .uniqBy('email', 'surveyId')
-    //         .each(({ surveyId, email, choice }) => {
-    //             console.log(surveyId);
-    //             console.log(choice);
-    //             Survey.updateOne({
-    //                 _id: surveyId,
-    //                 recipients: {
-    //                     $elemMatch: { email: email, responded: false}
-    //                 }
-    //             }, {
-    //                 $inc: { [choice]: 1 },
-    //                 $set: { 'recipients.$.responded': true },
-    //                 lastResponded: new Date()
-    //             }).exec();
-    //         })
-    //         .value();
-    //
-    //     res.send({});
-    // });
 
     //POST TO ADD A PLAYER
     app.post('/api/players', requireLogin, async (req, res) => {
@@ -96,6 +61,22 @@ module.exports = (app) => {
             console.log(statusMessage)
             res.send(statusMessage);
         }
+    });
+
+    //PUT TO UPDATE A PLAYER
+    app.put('/api/players', requireLogin, async (req, res) => {
+        const { first_name, last_name, score } = req.body;
+
+        let updatePlayer = Player.findByIdAndUpdate(
+            req.body._id,
+            req.body,
+            //{ "first_name": first_name, "last_name": last_name, "score": score }
+            {new: true},
+            (err, player) => {
+                if (err) return res.status(500).send(err);
+                return res.send(player);
+            }
+        );
     });
 
 };

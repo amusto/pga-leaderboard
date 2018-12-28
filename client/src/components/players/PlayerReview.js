@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import formFields from "./formFields";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import { fetchPlayer } from "../../actions";
+import { fetchPlayer, updatePlayer } from "../../actions";
 
 class PlayerReview extends Component {
     constructor(props) {
@@ -47,37 +47,13 @@ class PlayerReview extends Component {
     onPlayerSubmit(event) {
         event.preventDefault();
         console.log(this.state)
-        //this.props.updatePlayer(this.state, this.props.history)
+        this.props.updatePlayer(this.state, this.props.history)
     }
 
     handleChange(event) {
         const target = event.target;
         this.setState({[target.name]: target.value})
     }
-
-    // renderPlayer() {
-    //     const thisPlayer = this.props.player;
-    //
-    //     formFields.map(function(field) {
-    //         field.value = thisPlayer[field.name]
-    //         return field;
-    //     })
-    //
-    //     const formValues = _.map(formFields, ({ type, label, name, value, size }, i) => {
-    //         const style = {
-    //             width: size
-    //         }
-    //         return (<div className="form-group" key={`${name}_${i}`}>
-    //             <label htmlFor={label}>{label}</label>
-    //             <input type={type} className="form-control" name={name} id={name} placeholder={label} style={style} onChange={this.handleChange} value={value}></input>
-    //         </div>)
-    //     })
-    //
-    //     return (
-    //             <div>
-    //                 {this.props.player.first_name}
-    //             </div>)
-    // }
 
     render() {
 
@@ -92,7 +68,6 @@ class PlayerReview extends Component {
         })
         return (
             <div>
-                {/*{this.renderPlayer()}*/}
                 <form onSubmit={this.handleSubmit}>
                     {formValues}
                     <Link to="/players" className="red btn-flat white-text">
@@ -105,9 +80,7 @@ class PlayerReview extends Component {
             </div>
         )
     }
-
 };
-
 
 function mapStateToProps({ player }){
     return {
@@ -115,4 +88,4 @@ function mapStateToProps({ player }){
     }
 }
 
-export default connect(mapStateToProps, { fetchPlayer })(PlayerReview);
+export default connect(mapStateToProps, { fetchPlayer, updatePlayer })(PlayerReview);

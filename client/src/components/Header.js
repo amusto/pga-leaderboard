@@ -25,7 +25,11 @@ class Header extends Component {
                             LeaderBoard
                         </Link>
                     </li>,
-                    <li key="1"><a href="/api/current_user">User</a></li>,
+                    <li key="1">
+                        <Link to={this.props.auth ? '/userInfo' : '/'}>
+                            User Details
+                        </Link>
+                    </li>,
                     <li key="2"><a href="/api/logout">Logout</a></li>
                 ]
         }
