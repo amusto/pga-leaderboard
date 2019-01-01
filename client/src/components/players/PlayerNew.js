@@ -1,9 +1,11 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import {submitPlayer} from "../../actions";
-import formFields from "./formFields";
-import {Link} from "react-router-dom";
+//import formFields from "./formFields";
+import NewPlayerForm from "./NewPlayerForm";
+// import { reduxForm, Field } from 'redux-form';
+// import {Link} from "react-router-dom";
 import {connect} from "react-redux";
+import './Form.css';
 
 class PlayerNew extends Component {
     constructor(props) {
@@ -11,18 +13,17 @@ class PlayerNew extends Component {
 
         this.state = {
             showAddPlayerButton: false,
+            isValidated: false,
+            errorMessage: '',
+            showFormSuccess: false,
+            isSubmitted: false,
             status: 0,
             first_name: '',
             last_name: '',
             score: ''
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.onPlayerSubmit.bind(this);
-    }
-
-    onPlayerSubmit(event) {
-        event.preventDefault();
-        this.props.submitPlayer(this.state, this.props.history)
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
@@ -30,38 +31,29 @@ class PlayerNew extends Component {
         this.setState({[target.name]: target.value})
     }
 
-    render() {
-
-        const formValues = _.map(formFields, ({ type, label, name, value, size }, i) => {
-            const style = {
-                width: size
+    handleSubmit = values => {
+        let that = this;
+        this.props.submitPlayer(values, this.props.history).then(function(data) {
+            if (that.props.player.status) {
+                let message = `${that.props.player.status}: ${that.props.player.message}`
+                that.setState({'errorMessage' : message})
             }
-            return (<div className="form-group" key={`${name}_${i}`}>
-                <label htmlFor={label}>{label}</label>
-                <input type={type} className="form-control" name={name} id={name} placeholder={label} style={style} onChange={this.handleChange} ></input>
-            </div>)
-        })
+        });
+    };
+
+    render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    {formValues}
-                    <Link to="/players" className="red btn-flat white-text">
-                        Cancel
-                    </Link>
-                    <button className="teal btn-flat right white-text">
-                        Submit
-                    </button>
-                </form>
+            <div className="container">
+                {this.state.errorMessage && <div style={{'color': 'red'}}>{this.state.errorMessage}</div>}
+                <NewPlayerForm onSubmit={this.handleSubmit} />
             </div>
         )
     }
-
 };
 
-
-function mapStateToProps(state){
+function mapStateToProps( state ){
     return {
-        state
+        player: state.player
     }
 }
 

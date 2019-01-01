@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER, FETCH_PLAYER, FETCH_PLAYERS, DELETE_PLAYER } from './types';
+import { FETCH_USER, FETCH_PLAYER, FETCH_PLAYER_FAILURE, FETCH_PLAYERS, DELETE_PLAYER } from './types';
 
 export const fetchUser = () => async dispatch => {
     const res = await axios.get('/api/current_user');
@@ -21,8 +21,8 @@ export const submitPlayer = (values, history) => async dispatch => {
         history.push('/players');
         dispatch({ type: FETCH_USER, payload: res.data});
     } else {
-        alert(res.data.message);
-        dispatch({ type: FETCH_USER, payload: res.data});
+        //alert(res.data.message);
+        dispatch({ type: FETCH_PLAYER_FAILURE, payload: res.data});
     }
 };
 

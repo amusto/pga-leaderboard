@@ -38,7 +38,6 @@ module.exports = (app) => {
         const { first_name, last_name, score } = req.body;
 
         const playerExists = await Player.find({first_name, last_name}).select();
-        console.log(playerExists.length)
 
         if (playerExists.length === 0) {
             const player = new Player({
@@ -58,7 +57,6 @@ module.exports = (app) => {
                 status: 'error',
                 message: 'This player exists!'
             }
-            console.log(statusMessage)
             res.send(statusMessage);
         }
     });

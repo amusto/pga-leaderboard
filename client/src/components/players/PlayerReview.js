@@ -46,7 +46,6 @@ class PlayerReview extends Component {
 
     onPlayerSubmit(event) {
         event.preventDefault();
-        console.log(this.state)
         this.props.updatePlayer(this.state, this.props.history)
     }
 

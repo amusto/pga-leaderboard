@@ -10,33 +10,18 @@ class Header extends Component {
     }
 
     renderContent() {
-        switch (this.props.auth) {
-            case null:
-                return;
-            case false:
-                return (
-                  <li><a href="/auth/google">Login with Google</a></li>
-                );
-            default:
-                return [
-                    <li key="0">
-                        <Link to={this.props.auth ? '/' : '/'}>
-                            Home
-                        </Link>
-                    </li>,
-                    <li key="1">
-                        <Link to={this.props.auth ? '/players' : '/'}>
-                            LeaderBoard
-                        </Link>
-                    </li>,
-                    <li key="2">
-                        <Link to={this.props.auth ? '/userInfo' : '/'}>
-                            My Profile
-                        </Link>
-                    </li>,
-                    <li key="3"><a href="/api/logout">Logout</a></li>
-                ]
-        }
+        return [
+            <li key="0">
+                <Link to={'/'}>
+                    Home
+                </Link>
+            </li>,
+            <li key="1">
+                <Link to={'/players'}>
+                    LeaderBoard
+                </Link>
+            </li>
+        ]
     }
 
     render() {
@@ -50,7 +35,7 @@ class Header extends Component {
               <nav>
                   <div className="nav-wrapper">
                       <Link
-                        to={this.props.auth ? '/players' : '/'}
+                        to={'/players'}
                         className="left brand-logo"
                         style={{ margin: '0 10px' }}>
                           Leader Board</Link>
@@ -59,13 +44,13 @@ class Header extends Component {
                       </ul>
                   </div>
               </nav>
-              {this.props.auth && <div style={addPlayerRow}>
+              <div style={addPlayerRow}>
                   <Link
-                      to={this.props.auth ? '/AddPlayer' : '/'}
+                      to={'/AddPlayer'}
                       className="waves-effect waves-light btn"
                       style={{ margin: '0 10px' }}>
                       Add Player</Link>
-              </div>}
+              </div>
           </div>
         )
     }
